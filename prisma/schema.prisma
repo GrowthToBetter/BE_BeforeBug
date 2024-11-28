@@ -1,0 +1,54 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User{
+  id            String     @id @default(uuid()) @map("user_id") @db.Char(36)
+  email         String     @unique
+  photo_profile String?
+  name          String
+  absent        String?
+  classes       String?
+  school_origin  String?
+  userAuth      UserAuth?
+  teacher_sub   Teacher[]
+  generation    String?
+}
+
+model Teacher{
+  id String @id @default(uuid()) @map("teacher_id") @db.Char(36)
+  email  String
+  photo_profile String?
+  name String
+  major String
+  exercise Exercise[]
+  subcription User[]
+}
+
+model UserAuth {
+  id         String    @id @default(uuid()) @map("userauth_id") @db.Char(36)
+  password   String?
+  last_login DateTime?
+  userEmail  String    @unique
+  user       User      @relation(fields: [userEmail], references: [email], onDelete: Cascade)
+}
+
+model Exercise{
+  id String @id @default(uuid()) @map("exercise_id") @db.Char(36)
+  name String
+  dificulty String
+  matery String
+  Teacher Teacher[]
+}
