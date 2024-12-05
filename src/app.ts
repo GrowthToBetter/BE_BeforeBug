@@ -7,10 +7,7 @@ const app = express();
 
 // Konfigurasi opsi CORS
 const corsOptions = {
-  origin: [
-    'http://localhost:3000',  // URL frontend Anda
-    'http://127.0.0.1:3000', // Alternatif
-  ],
+  origin: "*",
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: [
     'Content-Type',
